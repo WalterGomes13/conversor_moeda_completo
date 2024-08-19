@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="inputs" style="display: flex; flex-direction: row;">
+        
+    </div>
+    <div id="menus">
+        <select id="opcoes" name="opcoes">
+        
+        </select>
+        <select id="opcoes1" name="opcoes">
+        
+        </select>
+    </div>
+    <button id="obter">Obter</button>
+    <script>
+        const opcoes = document.getElementById('opcoes');
+        const opcoes1 = document.getElementById('opcoes1');
+        const apiURL = 'https://api.exchangeratesapi.io/v1/latest?access_key=4e841d0b9308ef8107a387df1c386883';
+        fetch(apiURL)
+            .then(response => {
+                if(!response.ok){
+                    throw new Error('A solicitação não foi bem-sucedida');
+                }
+                return response.json();
+            })
+            .then(data => {
+                data.base = "EUR";
+                const taxas = data.rates;
+                for (let moeda in taxas) {
+                    const opcao = document.createElement('option');
+                    const opcao1= document.createElement('option');
+                    opcao.value = moeda;
+                    opcao.innerText = `${moeda} - ${taxas[moeda]}`;
+                    opcao1.value = moeda;
+                    opcao1.innerText = `${moeda} - ${taxas[moeda]}`;
+                    opcoes.appendChild(opcao);
+                    opcoes1.appendChild(opcao1);
+                }
+                console.log(data);
+            })
+            .catch(error => {
+                alert('Erro: '+error.message);
+            })
+
+
+            function obterCotacaoMoeda(base,destino){
+
+            }
+    </script>
+</body>
+</html>
